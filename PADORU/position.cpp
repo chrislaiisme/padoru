@@ -45,22 +45,19 @@ void solve() {
 	system("cls");
 	for(LL t = 0; t < 4; t ++ ) {
 		if(t == 0) {
-			LL c[1250];
-			string str = "";
-			for(LL i = 0; i < 1250; i ++ )
-				c[i] = chr[arr[t][i]];
-			str += "int c[m]={";
-			for(LL i = 0; i < 1250; i ++ ) {
-				str += to_string(c[i]);
-				if(i == 1249)
-					str += "};";
-				else
-					str += ",";
+			for(LL t2 = 0; t2 < 10; t2 ++ ) {
+				string str = "";
+				str += "$_(" + to_string(t) + "," + to_string(t2 * 125) + ",";
+				for(LL i = t2*125; i < t2*125+125; i ++ ) {
+					int c = chr[arr[t][i]];
+					str += to_string(c);
+					if(i == t2*125+124)
+						str += ");";
+					else
+						str += ",";
+				}
+				vec.pb(str);
 			}
-			str += "$_(";
-			str += to_string(t);
-			str += ",c);";
-			vec.pb(str);
 			continue;
 		}
 		mp.clear();
@@ -88,11 +85,12 @@ void solve() {
 						}
 						l = r = j;
 					}
-					vec.pb("_(" + to_string(t) + "," + to_string(l) + "," + to_string(r) + "," + to_string(chr[c]) + ");");
 				}
+				vec.pb("_(" + to_string(t) + "," + to_string(l) + "," + to_string(r) + "," + to_string(chr[c]) + ");");
 			}
 			else {
-				vector<LL> tmp;
+				string str = "";
+				str += "_$(" + to_string(t) + "," + to_string(chr[c]) + ",";
 				LL l = -1, r = -1;
 				for(auto &j : i.S) {
 					if(l == -1)
@@ -100,23 +98,11 @@ void solve() {
 					else if(j == r + 1)
 						r = j;
 					else {
-						tmp.pb(l);
-						tmp.pb(r);
+						str += to_string(l*2047+r) + ",";
 						l = r = j;
 					}
 				}
-				tmp.pb(l);
-				tmp.pb(r);
-				string str = "";
-				str += "v={";
-				for(LL i = 0; i < tmp.size(); i ++ ) {
-					str += to_string(tmp[i]);
-					if(i == tmp.size()-1)
-						str += "};";
-					else
-						str += ",";
-				}
-				str += ("_$(" + to_string(t) + ",v," + to_string(chr[c]) + ");");
+				str += to_string(l*2047+r) + ");";
 				vec.pb(str);
 			}
 		}
